@@ -14,6 +14,9 @@ torch.manual_seed(128)
 
 print(data_df.head())
 
+epoch = 45
+k = 0
+
 
 class HeartDataset:
     def __init__(self, file):
@@ -103,6 +106,7 @@ def train(dataloader, model, loss_fn, optimizer, train_losses):
 
 
 def test(dataloader, model, loss_fn, val_losses):
+    global k
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     model.eval()
@@ -116,11 +120,16 @@ def test(dataloader, model, loss_fn, val_losses):
     test_loss /= num_batches
     correct /= size
     val_losses.append(test_loss)
+    k += 1
+    if k == epoch - 1:
+        print("________")
+        print(f"Test loss: {test_loss:>7f}")
+        print(f"Test accuracy: {(correct*100):>0.1f}%")
 
 
 test_losses = []
 val_losses = []
-for i in range(70):
+for i in range(epoch):
     train(train_dataloader, model, loss_func, optimizer, test_losses)
     test(val_dataloader, model, loss_func, val_losses)
 

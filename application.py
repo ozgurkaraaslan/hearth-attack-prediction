@@ -46,22 +46,6 @@ class HeartDiseasePredictorApp:
             "Heart Rate": 95,
             "Glucose": 76,
         }
-        self.data_test2 = {
-            "Sex": "Male",
-            "Age": 40,
-            "Current Smoker": "Yes",
-            "Cigs Per Day": 20,
-            "BP Meds": "No",
-            "Prevalent Stroke": "No",
-            "Prevalent Hyp": "No",
-            "Diabetes": "No",
-            "Tot Chol": 205,
-            "Sys BP": 158,
-            "Dia BP": 102,
-            "BMI": 25.45,
-            "Heart Rate": 75,
-            "Glucose": 87,
-        }
 
         self.create_radio_button("Sex", ["Male", "Female"], 0)
         self.create_entry_field("Age", 1)
@@ -78,11 +62,8 @@ class HeartDiseasePredictorApp:
         self.create_entry_field("Heart Rate", 12)
         self.create_entry_field("Glucose", 13)
 
-        self.test_button1 = tk.Button(root, text="Test-1", command=lambda: self.fill_with_data(self.data_test1))
+        self.test_button1 = tk.Button(root, text="Test Data", command=lambda: self.fill_with_data(self.data_test1))
         self.test_button1.grid(row=14, column=0, pady=10)
-
-        self.test_button2 = tk.Button(root, text="Test-2", command=lambda: self.fill_with_data(self.data_test2))
-        self.test_button2.grid(row=14, column=1, pady=10)
 
         self.predict_button = tk.Button(root, text="Predict", command=self.predict)
         self.predict_button.grid(row=14, column=2, pady=10)
@@ -139,9 +120,9 @@ class HeartDiseasePredictorApp:
                 predicted_class = torch.argmax(prediction, dim=1)
 
                 if predicted_class.item() == 0:
-                    result = f"Result: Positive"
-                else:
                     result = f"Result: Negative"
+                else:
+                    result = f"Result: Positive"
             messagebox.showinfo("Prediction Result", result)
         except Exception as e:
             messagebox.showerror("Input Error", str(e))
